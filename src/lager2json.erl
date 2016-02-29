@@ -39,7 +39,7 @@ metadata(Msg) ->
   end.
 
 %% can't naively encode `File` or `Pid` as json as jsx see them as lists
-%% of integers 
+%% of integers
 printable({file, File}) ->
   {file, unicode:characters_to_binary(File, unicode)};
 printable({pid, Pid}) ->
@@ -94,4 +94,3 @@ format_test_() ->
   ].
 
 -endif.
-  

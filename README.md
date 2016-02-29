@@ -45,4 +45,4 @@ all configuration options should be passed as a proplist
 *lager2json* is available under either the MIT or Apache 2.0 licenses. see the
 relevant `LICENSE-*` file included with this application
 
-copyright 2016 alisdair sullivan 
+copyright 2016 alisdair sullivan
