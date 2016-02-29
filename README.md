@@ -34,9 +34,9 @@ ok = lager:info("hallo world", []).
 
 *lager2json* supports the following configuration options
 
-* `newline`
-  append a newline after the json output. useful when writing to the console
-  or file (default: `false`)
+* `{separator, Separator}`
+  append the separator (a binary) after the json output. useful when writing
+  to the console or file
 
 all configuration options should be passed as a proplist
 

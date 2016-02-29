@@ -16,8 +16,8 @@ format(Msg, Config) ->
     metadata => metadata(Msg)
   }),
   case Config of
-    [{newline, true}] -> <<JSON/binary, "\n"/utf8>>;
-    []                -> JSON
+    [{separator, Sep}] -> <<JSON/binary, Sep/binary>>;
+    []                 -> JSON
   end.
 
 message(Msg) ->
@@ -87,9 +87,9 @@ format_test_() ->
       <<"{\"message\":\"hallo world\",\"metadata\":{\"file\":\"foo.erl\"},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}">>,
       format(lager_msg:new("hallo world", Now, info, [{file, "foo.erl"}], []), [])
     )},
-    {"append newline", ?_assertEqual(
-      <<"{\"message\":\"hallo world\",\"metadata\":{},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}\n">>,
-      format(lager_msg:new("hallo world", Now, info, [], []), [{newline, true}])
+    {"customizable separator", ?_assertEqual(
+      <<"{\"message\":\"hallo world\",\"metadata\":{},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}\n----\n">>,
+      format(lager_msg:new("hallo world", Now, info, [], []), [{separator, <<"\n----\n">>}])
     )}
   ].
 
