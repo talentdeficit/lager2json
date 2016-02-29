@@ -1,0 +1,10 @@
+language: erlang
+install:
+  - wget https://s3.amazonaws.com/rebar3/rebar3
+  - chmod u+x rebar3
+otp_release:
+  - 18.2.1
+script: "./rebar3 update && ./rebar3 eunit"
+notifications:
+  email:
+    - alisdairsullivan@yahoo.ca
