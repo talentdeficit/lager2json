@@ -9,16 +9,24 @@
 format(Msg, Config, _Colors) -> format(Msg, Config).
 
 format(Msg, Config) ->
-  JSON = jsx:encode(#{
-    message => message(Msg),
+  JSONMap = msg_to_map(Msg),
+  JSONMap1 = add_static_config(JSONMap, proplists:get_value(static, Config)),
+  JSON = jsx:encode(JSONMap1),
+  case proplists:get_value(separator, Config) of
+    undefined          -> JSON;
+    Sep                -> <<JSON/binary, Sep/binary>>
+  end.
+
+add_static_config(JSONMap, undefined) ->
+    JSONMap;
+add_static_config(JSONMap, Static) ->
+  JSONMap#{static => Static}.
+
+msg_to_map(Msg) ->
+  #{message => message(Msg),
     severity => severity(Msg),
     timestamp => timestamp(Msg),
-    metadata => metadata(Msg)
-  }),
-  case Config of
-    [{separator, Sep}] -> <<JSON/binary, Sep/binary>>;
-    []                 -> JSON
-  end.
+    metadata => metadata(Msg)}.
 
 message(Msg) ->
   unicode:characters_to_binary(lager_msg:message(Msg), unicode).
@@ -86,6 +94,10 @@ format_test_() ->
     {"file in metadata", ?_assertEqual(
       <<"{\"message\":\"hallo world\",\"metadata\":{\"file\":\"foo.erl\"},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}">>,
       format(lager_msg:new("hallo world", Now, info, [{file, "foo.erl"}], []), [])
+    )},
+   {"static field", ?_assertEqual(
+                       <<"{\"message\":\"hallo world\",\"metadata\":{},\"severity\":\"info\",\"static\":{\"app\":\"test\"},\"timestamp\":\"", TimeStamp/binary, "\"}">>,
+      format(lager_msg:new("hallo world", Now, info, [], []), [{static, #{app => test}}])
     )},
     {"customizable separator", ?_assertEqual(
       <<"{\"message\":\"hallo world\",\"metadata\":{},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}\n----\n">>,
