@@ -51,7 +51,7 @@ metadata(Msg) ->
 printable({file, File}) ->
   {file, unicode:characters_to_binary(File, unicode)};
 printable({pid, Pid}) ->
-  {pid, unicode:characters_to_binary(Pid, unicode)};
+    {pid, pid_list(Pid)};
 %% if a value is expressable in json use it directly, otherwise
 %% try to get a printable representation and express it as a json
 %% string
@@ -61,6 +61,12 @@ printable({Key, Value}) when is_atom(Key); is_binary(Key) ->
     false -> {Key, unicode:characters_to_binary(io_lib:format("~p", [Value]), unicode)}
   end.
 
+pid_list(Pid) ->
+  try unicode:characters_to_binary(Pid, unicode) of
+    Pid0 -> Pid0
+    catch error:badarg ->
+      unicode:characters_to_binary(hd(io_lib:format("~p", [Pid])), unicode)
+    end.
 
 -ifdef(TEST).
 
