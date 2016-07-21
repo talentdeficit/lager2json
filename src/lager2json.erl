@@ -91,6 +91,10 @@ format_test_() ->
       <<"{\"message\":\"hallo world\",\"metadata\":{\"pid\":\"", Pid/binary, "\"},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}">>,
       format(lager_msg:new("hallo world", Now, info, [{pid, io_lib:format("~p", [Self])}], []), [])
     )},
+   {"bare pid in metadata", ?_assertEqual(
+                          <<"{\"message\":\"hallo world\",\"metadata\":{\"pid\":\"<0.6.0>\"},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}">>,
+                          format(lager_msg:new("hallo world", Now, info, [{pid, list_to_pid("<0.6.0>")}], []), [])
+     )},
     {"file in metadata", ?_assertEqual(
       <<"{\"message\":\"hallo world\",\"metadata\":{\"file\":\"foo.erl\"},\"severity\":\"info\",\"timestamp\":\"", TimeStamp/binary, "\"}">>,
       format(lager_msg:new("hallo world", Now, info, [{file, "foo.erl"}], []), [])
