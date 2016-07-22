@@ -5,8 +5,6 @@
   {applications, [
     kernel, stdlib, jsx, rfc3339
   ]},
-  {env, []},
-  {mod, []},
   {maintainers, ["@talentdeficit"]},
   {licenses, ["MIT", "Apache 2.0"]},
   {links, [{"Github", "https://github.com/talentdeficit/lager2json"}]}
