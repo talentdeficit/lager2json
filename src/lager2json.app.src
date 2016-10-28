@@ -1,6 +1,6 @@
 {application, lager2json, [
   {description, "a json formatter for lager"},
-  {vsn, "0.1.0"},
+  {vsn, "1.0.1"},
   {registered, []},
   {applications, [
     kernel, stdlib, jsx, rfc3339
