@@ -1,12 +1,11 @@
 {application, lager2json, [
   {description, "a json formatter for lager"},
-  {vsn, "1.0.1"},
+  {vsn, "1.0.2"},
   {registered, []},
   {applications, [
     kernel, stdlib, jsx, rfc3339
   ]},
   {env, []},
-  {mod, []},
   {maintainers, ["@talentdeficit"]},
   {licenses, ["MIT", "Apache 2.0"]},
   {links, [{"Github", "https://github.com/talentdeficit/lager2json"}]}

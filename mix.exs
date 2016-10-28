@@ -3,7 +3,7 @@ defmodule Lager2JSON.Mixfile do
 
   def project do
     [app: :lager2json,
-     version: "1.0.1",
+     version: "1.0.2",
      language: :erlang,
      description: "a lager formatter that produces json",
      deps: deps,
